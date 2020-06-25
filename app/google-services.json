@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "464038171193",
+    "firebase_url": "https://habobooking.firebaseio.com",
+    "project_id": "habobooking",
+    "storage_bucket": "habobooking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464038171193:android:55b22488022096936df3e8",
+        "android_client_info": {
+          "package_name": "com.example.habobooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464038171193-69b3bt4ooievo0qnl1v70le6dlnn41dh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.habobooking",
+            "certificate_hash": "f4643d3996a03f5dc9517b3274c408c37b65f960"
+          }
+        },
+        {
+          "client_id": "464038171193-vll7p8sf7phrv214ipvnrd0g719ggpee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBJnwaSZtF5anDrUg8wvYsrbuldEnMwKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464038171193-vll7p8sf7phrv214ipvnrd0g719ggpee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
