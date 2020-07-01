@@ -4,30 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/my_bg"
+    android:background="@drawable/H1_Start_Screen"
     android:padding="8dp"
     tools:context=".MainActivity">
 
 
     <TextView
         android:id="@+id/txt_skip"
-        android:text="Just Skip"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="30sp"
-        android:fontFamily="@font/bellerose"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/bellerose"
+        android:text="Just Skip"
+        android:textColor="@color/loginButtonText"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/btn_login"
-        android:text="Login"
-        android:background="@color/colorButton"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_above="@+id/txt_skip"
-        android:fontFamily="@font/bellerose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/login_button"
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp"
+        android:fontFamily="@font/norwester"
+        android:text="Login"
+        android:textColor="@color/loginButtonText"
+        android:textSize="22sp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp" />
 
 </RelativeLayout>
