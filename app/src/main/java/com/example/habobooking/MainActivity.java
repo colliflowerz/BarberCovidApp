@@ -1,39 +1,20 @@
 package com.example.habobooking;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Base64;
 
 import com.example.habobooking.Common.Common;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -77,14 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
-            if(resultCode == RESULT_OK){
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if(loginResult.getError() != null){
+                Toast.makeText(this,""+loginResult.getError().getErrorType.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            else {
-                Toast.makeText(this,"Failed to Sign In", Toast.LENGTH_SHORT).show();
+            else if(loginResult.wasCancelled()){
+                Toast.makeText(this,"Login cancelled", Toast.LENGTH_SHORT).show();
             }
             else{
-
                 Intent intent = new Intent(this,HomeActivity.class);
                 intent.putExtra(Common.IS_LOGIN, true);
                 startActivity(intent);
@@ -120,96 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        Dexter.withActivity(this)
-                .withPermissions(new String[]{
-                        Manifest.permission.READ_CALENDAR,
-                        Manifest.permission.WRITE_CALENDAR
-                }).withListener(new MultiplePermissionsListener() {
-            @Override
-            public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-                    //get
-                    FirebaseInstanceId.getInstance()
-                            .getInstanceId()
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Common.updateToken(getBaseContext(), task.getResult().getToken());
-
-                                    Log.d("TestToken", task.getResult().getToken());
-                                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                    intent.putExtra(Common.IS_LOGIN, true);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                intent.putExtra(Common.IS_LOGIN, true);
-                                startActivity(intent);
-                                finish();
-                            });
-                }else {
-                    setContentView(R.layout.activity_main);
-                    ButterKnife.bind(MainActivity.this);
-                }
-            }
-
-            @Override
-            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-
-            }
-        }).check();
-
         setContentView(R.layout.activity_main);
-
-        printKeyHash();
         ButterKnife.bind(MainActivity.this);
-    }
-
-    private void checkUserFromFirebase(FirebaseUser user) {
-        FirebaseInstanceId.getInstance()
-                .getInstanceId()
-                .addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
-                            Common.updateToken(getBaseContext(),task.getResult().getToken());
-
-                            Log.d("TestToken", task.getResult().getToken());
-
-                            Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-                            intent.putExtra(Common.IS_LOGIN, true);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-                    intent.putExtra(Common.IS_LOGIN, true);
-                    startActivity(intent);
-                    finish();
-                });
-    }
-
-    private void printKeyHash() {
-        try{
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(
-                    getPackageName(),
-                    PackageManager.GET_SIGNATURES
-            );
-            for (Signature signature : packageInfo.signatures)
-            {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KEYHASH", Base64.encodeToString(md.digest(),Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e){
-            e.printStackTrace();
-        }
     }
 }
